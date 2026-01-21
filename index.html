@@ -5,234 +5,222 @@
 <title>I Found You ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- ======================================================
+     💖 USER CONFIGURATION (EDIT ONLY THIS PART)
+====================================================== -->
+<script>
+const CONFIG = {
+  recipientName: "My Baby",
+  nicknames: ["cutie", "sunshine", "lovebug", "handsome"],
+  theme: "valentine", // valentine | anniversary | proposal
+  music: "perfect.mp3",
+
+  messages: [
+    "Hey <span class='nickname'>{{name}}</span> ❤️",
+    "I don’t know when it happened, but you became my everything 💖",
+    "You are my {{nick1}}, my {{nick2}}, my {{nick3}} 💕",
+    "Every time you smile, my heart forgets how to be calm 🥹",
+    "You are my safe place on hard days and my happiness on good ones 🫶",
+    "With you, even silence feels warm ✨",
+    "No matter where life takes us…",
+    "<strong>I choose you. Again. And always.</strong> ♾️",
+    "I found you… and my heart finally felt home 🏡💓"
+  ]
+};
+</script>
+
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body,html{
-  width:100%; height:100%; overflow:hidden;
+/* ======================================================
+   🎨 THEMES
+====================================================== */
+:root {
+  --bg1:#fbc2eb;
+  --bg2:#a6c1ee;
+  --heart:#ff2d55;
+  --text:#ffd1dc;
+}
+
+body.anniversary {
+  --bg1:#f6d365;
+  --bg2:#fda085;
+  --heart:#ff7a18;
+  --text:#fff2cc;
+}
+
+body.proposal {
+  --bg1:#667eea;
+  --bg2:#764ba2;
+  --heart:#ff4ecd;
+  --text:#e6d9ff;
+}
+
+/* ======================================================
+   BASE STYLES
+====================================================== */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  width:100%;height:100%;overflow:hidden;
   font-family:'Segoe UI',sans-serif;
-  perspective:1000px;
-  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
-  color:#fff;
-  position:relative;
-  transition: background 5s ease;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:var(--text);
+  animation:bgAnim 20s infinite alternate;
 }
 
-/* GRADIENT ANIMATION */
-@keyframes bgAnim {
-  0%{ background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
-  50%{ background: linear-gradient(135deg, #ffecd2, #fcb69f); }
-  100%{ background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
-}
-body{
-  animation: bgAnim 20s infinite alternate;
+@keyframes bgAnim{
+  0%{filter:hue-rotate(0deg)}
+  100%{filter:hue-rotate(20deg)}
 }
 
-/* CENTER HEART */
+/* ======================================================
+   HEART
+====================================================== */
 .core-heart{
-  position:absolute; top:50%; left:50%;
-  width:120px; height:120px;
-  background: #ff2d55;
+  position:absolute;
+  top:50%;left:50%;
+  width:120px;height:120px;
+  background:var(--heart);
   transform:translate(-50%,-50%) rotate(45deg);
   cursor:pointer;
   animation:beat 1.3s infinite;
-  box-shadow:0 0 60px rgba(255,45,85,0.9);
+  box-shadow:0 0 60px var(--heart);
   z-index:10;
-  transition: all 1s ease;
 }
 .core-heart::before,.core-heart::after{
-  content:""; position:absolute; width:120px;height:120px;
-  background:#ff2d55;border-radius:50%;
+  content:"";
+  position:absolute;
+  width:120px;height:120px;
+  background:var(--heart);
+  border-radius:50%;
 }
-.core-heart::before{ left:-60px; }
-.core-heart::after{ top:-60px; }
-.core-heart.hide{ opacity:0; transform:translate(-50%,-50%) rotate(45deg) scale(0); pointer-events:none; }
-
-@keyframes beat{ 50%{ transform:translate(-50%,-50%) rotate(45deg) scale(1.2); } }
+.core-heart::before{left:-60px}
+.core-heart::after{top:-60px}
+.core-heart.hide{
+  opacity:0;
+  transform:translate(-50%,-50%) scale(0);
+  pointer-events:none;
+}
+@keyframes beat{
+  50%{transform:translate(-50%,-50%) rotate(45deg) scale(1.2)}
+}
 
 .hint{
-  position:absolute; bottom:30px; width:100%;
-  text-align:center; font-size:1.2rem; color:#ffd1dc;
-  z-index:10;
+  position:absolute;
+  bottom:30px;
+  width:100%;
+  text-align:center;
+  font-size:1.2rem;
 }
 
-/* BACKGROUND FLOATING HEARTS */
-.bg-heart{
-  position:absolute; width:12px; height:12px;
-  background:#ff5c8a; transform:rotate(45deg); opacity:0.4;
-  border-radius:3px; z-index:1;
-}
-.bg-heart::before,.bg-heart::after{ content:""; position:absolute; width:12px;height:12px; background:#ff5c8a;border-radius:50%; }
-.bg-heart::before{ left:-6px; } .bg-heart::after{ top:-6px; }
-
-/* LETTER BOX */
+/* ======================================================
+   LETTER
+====================================================== */
 .letter{
   position:absolute;
-  top:50%;
-  left:50%;
-  width:80%;
-  max-width:400px;
-  height:60%;
+  top:50%;left:50%;
+  width:80%;max-width:420px;
+  height:65%;
   padding:25px;
-  background: rgba(20, 20, 40, 0.85);  /* dark purple/blue with opacity */
-  backdrop-filter: blur(16px);
+  background:rgba(20,20,40,.85);
+  backdrop-filter:blur(16px);
   border-radius:16px;
-  box-shadow:0 0 40px rgba(255,182,193,0.3);
-  transform: translate(-50%,-50%) scale(0);
+  transform:translate(-50%,-50%) scale(0);
   opacity:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  align-items:center;
-  transition: transform 0.8s ease, opacity 0.8s ease;
+  transition:.8s;
   overflow-y:auto;
-  scrollbar-width: thin;
-  scrollbar-color: #ff9fc3 rgba(255,255,255,0.2);
-  z-index:5;
-  border: 2px solid rgba(255,255,255,0.15);
-  scroll-behavior: smooth;
-  color:#ffd1dc;  /* text color */
 }
-
-/* Scrollbar for Chrome/Edge/Safari */
-.letter::-webkit-scrollbar {
-  width: 6px;
-}
-.letter::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.15);
-  border-radius:3px;
-}
-.letter::-webkit-scrollbar-thumb {
-  background: #ff9fc3;
-  border-radius:3px;
-}
-
-/* SPARKLE EFFECT */
-.sparkle{
-  position:absolute;
-  width:6px; height:6px;
-  border-radius:50%;
-  background: #fff;
-  opacity:0.8;
-  animation: twinkle 2s infinite alternate;
-  pointer-events:none;
-  z-index:0;
-}
-@keyframes twinkle{
-  0%{opacity:0.3; transform: scale(0.5);}
-  50%{opacity:1; transform: scale(1);}
-  100%{opacity:0.3; transform: scale(0.5);}
-}
-
-/* LETTER SHOW */
 .letter.show{
-  transform: translate(-50%,-50%) scale(1);
+  transform:translate(-50%,-50%) scale(1);
   opacity:1;
 }
 
-/* LINES */
 .line{
-  font-size:1.2rem; margin:10px 0;
-  text-align:center; line-height:1.5;
-  opacity:0; transform: translateY(15px);
-  animation:appear 0.8s forwards;
-  color:#ffd1dc;
-  text-shadow: 0 0 18px rgba(255,182,193,0.9);
+  font-size:1.2rem;
+  margin:12px 0;
+  text-align:center;
+  opacity:0;
+  animation:fadeUp .8s forwards;
 }
-.nickname{ font-weight:600; color:#ff9fc3; }
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0)}
+}
 
-@keyframes appear{ to { opacity:1; transform: translateY(0); } }
+.nickname{color:#ff9fc3;font-weight:600}
 
+/* ======================================================
+   FLOATING HEARTS
+====================================================== */
+.bg-heart{
+  position:absolute;
+  width:12px;height:12px;
+  background:var(--heart);
+  transform:rotate(45deg);
+  opacity:.4;
+}
+.bg-heart::before,.bg-heart::after{
+  content:"";
+  position:absolute;
+  width:12px;height:12px;
+  background:var(--heart);
+  border-radius:50%;
+}
+.bg-heart::before{left:-6px}
+.bg-heart::after{top:-6px}
 </style>
 </head>
+
 <body>
 
-<!-- FLOATING HEARTS -->
+<div class="core-heart" id="heart"></div>
+<div class="hint">Touch my heart 💓</div>
+<div class="letter" id="letter"></div>
+
+<audio id="song" loop></audio>
+
 <script>
+/* ======================================================
+   INIT
+====================================================== */
+document.body.classList.add(CONFIG.theme);
+document.getElementById("song").src = CONFIG.music;
+
+const heart = document.getElementById("heart");
+const letter = document.getElementById("letter");
+const song = document.getElementById("song");
+
 function spawnHeart(){
-  const h=document.createElement('div');
-  h.className='bg-heart';
-  h.style.left=Math.random()*100+'vw';
-  h.style.top=Math.random()*100+'vh';
-  h.style.width=h.style.height=(8+Math.random()*10)+'px';
-  h.style.opacity=(0.3+Math.random()*0.5);
+  const h=document.createElement("div");
+  h.className="bg-heart";
+  h.style.left=Math.random()*100+"vw";
+  h.style.top=Math.random()*100+"vh";
   document.body.appendChild(h);
-  const dur=8000+Math.random()*4000;
-  h.animate([{transform:'translateY(0)'},{transform:'translateY(-150px)'}],{duration:dur,iterations:Infinity});
-  setTimeout(()=>h.remove(),dur+500);
+  h.animate([{transform:"translateY(0)"},{transform:"translateY(-150px)"}],
+    {duration:8000+Math.random()*4000,iterations:Infinity});
 }
 setInterval(spawnHeart,300);
 
-// sparkles
-for(let i=0;i<30;i++){
-  const s=document.createElement('div');
-  s.className='sparkle';
-  s.style.left=Math.random()*100+'vw';
-  s.style.top=Math.random()*100+'vh';
-  s.style.width=s.style.height=(2+Math.random()*4)+'px';
-  document.body.appendChild(s);
-}
-</script>
-
-<!-- HEART -->
-<div class="core-heart" id="heart"></div>
-<div class="hint" id="hint">Touch my heart 💓</div>
-
-<!-- LETTER -->
-<div class="letter" id="letter"></div>
-
-<!-- MUSIC -->
-<audio id="song" loop>
-  <source src="perfect.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-const messages=[
-  "Hey <span class='nickname'>my baby</span> ❤️",
-  "I don’t know when it happened, but you became my everything 💖",
-  "You are my <span class='nickname'>cutie</span>, my <span class='nickname'>sweetheart</span>, my <span class='nickname'>handsome</span> 💕",
-  "Every time you smile, my heart forgets how to be calm 🥹",
-  "You are my safe place on hard days and my happiness on good ones 🫶",
-  "My <span class='nickname'>lovebug</span>, my <span class='nickname'>sunshine</span>, my <span class='nickname'>favorite human</span> ☀️",
-  "I love how you understand me without words… and love me without conditions ❤️",
-  "With you, even silence feels warm ✨",
-  "No matter where life takes us…",
-  "<strong>I choose you. Again. And again. And always.</strong> ♾️",
-  "I found you… and my heart finally felt home 🏡💓"
-];
-
-const heart=document.getElementById('heart');
-const hint=document.getElementById('hint');
-const letter=document.getElementById('letter');
-const song=document.getElementById('song');
-let opened=false;
-
-heart.addEventListener('click',()=>{
-  if(opened) return;
-  opened=true;
-  heart.classList.add('hide');
-  hint.style.display='none';
+heart.onclick=()=>{
+  heart.classList.add("hide");
   song.play().catch(()=>{});
+  letter.classList.add("show");
 
-  // show letter
-  letter.classList.add('show');
-
-  // show messages one by one softly
-  let index=0;
+  let i=0;
   const interval=setInterval(()=>{
-    if(index>=messages.length){ clearInterval(interval); return; }
-    const div=document.createElement('div');
-    div.className='line';
-    div.innerHTML=messages[index];
+    if(i>=CONFIG.messages.length){clearInterval(interval);return;}
+    let text=CONFIG.messages[i]
+      .replace("{{name}}",CONFIG.recipientName)
+      .replace("{{nick1}}",CONFIG.nicknames[0])
+      .replace("{{nick2}}",CONFIG.nicknames[1])
+      .replace("{{nick3}}",CONFIG.nicknames[2]);
+
+    const div=document.createElement("div");
+    div.className="line";
+    div.innerHTML=text;
     letter.appendChild(div);
-    index++;
-
-    // scroll letter to bottom
-    letter.scrollTop = letter.scrollHeight;
-
+    letter.scrollTop=letter.scrollHeight;
+    i++;
   },1300);
-});
+};
 </script>
 
 </body>
 </html>
-
