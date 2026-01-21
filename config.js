@@ -5,7 +5,7 @@
 ====================================================== */
 
 const CONFIG = {
-  recipientName: "My Baby",
+  recipientName: "Honey",
 
   nicknames: [
     "cutie",
